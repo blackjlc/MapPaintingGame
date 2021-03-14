@@ -7,7 +7,9 @@ using UnityEngine.Events;
 
 public class GameManager : Singleton<GameManager>
 {
+    [HideInInspector]
     public UnityEvent tick;
+    // In minisecond
     public int tickDuration = 200;
     private CancellationToken token;
 
@@ -25,5 +27,10 @@ public class GameManager : Singleton<GameManager>
             tick.Invoke();
             await UniTask.Delay(tickDuration, cancellationToken: token);
         }
+    }
+
+    public void RegisterTick(UnityAction action)
+    {
+        tick.AddListener(action);
     }
 }
